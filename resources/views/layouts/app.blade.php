@@ -139,14 +139,25 @@
                     </div>
                 </div>
                 <a href="{{ route('dashboard') }}" class="@if(Route::currentRouteName() == 'dashboard') active @endif">
-                     Dashboard
+                    Dashboard
                 </a>
                 <a href="{{ route('inventaris.index') }}" class="@if(Route::currentRouteName() == 'inventaris.index') active @endif">
-                     Daftar Inventaris
+                    Daftar Inventaris
+                </a>
+                <a href="#" class="disabled" style="opacity:0.7; cursor:not-allowed;">
+                    <span class="text-warning">(Segera Hadir)</span>
+                </a>
+                <a href="{{ route('peminjaman.index') }}" class="@if(Route::currentRouteName() == 'peminjaman.index') active @endif">
+                    Peminjaman
                 </a>
                 @if(Auth::user()->role === 'admin')
+                <a href="{{ route('peminjaman.create') }}" class="@if(Route::currentRouteName() == 'peminjaman.create') active @endif">
+                    Tambah Peminjaman
+                </a>
+                @endif
+                @if(Auth::user()->role === 'admin')
                 <a href="{{ route('inventaris.create') }}" class="@if(Route::currentRouteName() == 'inventaris.create') active @endif">
-                     Tambah Inventaris
+                    Tambah Inventaris
                 </a>
                 @endif
             </div>
