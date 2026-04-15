@@ -21,13 +21,9 @@ class InventarisFactory extends Factory
     {
         return [
             'nama' => $this->faker->word(),
-            'kode_inventaris' => 'INV-' . str_pad($this->faker->unique()->numberBetween(1, 9999), 4, '0', STR_PAD_LEFT),
-            'deskripsi' => $this->faker->sentence(),
             'jumlah' => $this->faker->numberBetween(1, 50),
-            'lokasi' => $this->faker->city(),
-            'kondisi' => $this->faker->randomElement(['baik', 'rusak', 'hilang']),
             'tanggal_masuk' => $this->faker->date(),
-            'harga' => $this->faker->numberBetween(100000, 10000000),
+
         ];
     }
 }

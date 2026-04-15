@@ -38,9 +38,8 @@
 
                         <hr>
                         <p class="text-muted text-center mb-0 small">
-                            <strong>Demo Login:</strong><br>
-                             Staff: staff@staff.com<br>
-                            Password: password
+                            <strong>Demo Login:</strong><br><br>
+                            Staff: staff@staff.com
                         </p>
                     </form>
                 </div>
@@ -53,7 +52,7 @@
 @section('extra-css')
 <style>
     body {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #0a1238 0%, #503f01 100%);
     }
 </style>
 @endsection

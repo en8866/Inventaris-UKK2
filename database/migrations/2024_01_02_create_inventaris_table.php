@@ -14,13 +14,8 @@ return new class extends Migration
         Schema::create('inventaris', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('kode_inventaris')->unique();
-            $table->text('deskripsi')->nullable();
             $table->integer('jumlah');
-            $table->string('lokasi');
-            $table->string('kondisi')->default('baik'); // baik, rusak, hilang
             $table->date('tanggal_masuk');
-            $table->decimal('harga', 10, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -7,10 +7,7 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 
 // Public routes
 Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect('/dashboard');
-    }
-    return view('welcome');
+    return redirect('/login');
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])

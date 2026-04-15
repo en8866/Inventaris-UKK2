@@ -11,7 +11,7 @@
             background-color: #f5f7fa;
         }
         .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #e0a906 0%, #6e4e05 100%);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .navbar-brand {
@@ -20,7 +20,7 @@
         }
         .sidebar {
             background-color: #2c3e50;
-            min-height: calc(100vh - 60px);
+            min-height: calc(120vh - 60px);
             padding: 20px 0;
             color: white;
         }
@@ -36,7 +36,7 @@
             color: white;
         }
         .sidebar a.active {
-            background-color: #667eea;
+            background-color: #e7ab06;
             color: white;
         }
         .main-content {
@@ -49,18 +49,18 @@
             margin-bottom: 20px;
         }
         .card-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #de9e09 0%);
             color: white;
             border: none;
             border-radius: 8px 8px 0 0;
             font-weight: 600;
         }
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #cc8d04 0%, #4e3e17 100%);
             border: none;
         }
         .btn-primary:hover {
-            background: linear-gradient(135deg, #5568d3 0%, #653a8a 100%);
+            background: linear-gradient(135deg, #d3b655 0%, #e1cb84 100%);
         }
         .stat-card {
             background: white;
@@ -89,7 +89,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('dashboard') }}">📦 Inventaris</a>
+            <a class="navbar-brand" href="{{ route('dashboard') }}"> Inventaris</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -98,7 +98,7 @@
                     @auth
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                            👤 {{ Auth::user()->name }} <span class="badge bg-info ms-2">{{ Auth::user()->role }}</span>
+                           👤  {{ Auth::user()->name }} <span class="badge bg-info ms-2">{{ Auth::user()->role }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
@@ -121,15 +121,32 @@
         @auth
         <div class="col-md-2" style="border-right: 1px solid #ddd;">
             <div class="sidebar">
+                <div style="padding: 15px 20px; border-bottom: 1px solid #34495e;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 40px; height: 40px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            {{ substr(Auth::user()->name, 0, 1) }}
+                        </div>
+                        <div>
+                            <p style="margin: 0; font-size: 0.9rem; color: #ecf0f1;">{{ Auth::user()->name }}</p>
+                            <p style="margin: 0; font-size: 0.75rem; color: #f3f3f3;">
+                                @if(Auth::user()->role === 'admin')
+                                <span style="background: #e74c3c; padding: 2px 8px; border-radius: 3px; display: inline-block;">Admin</span>
+                                @else
+                                <span style="background: #3498db; padding: 2px 8px; border-radius: 3px; display: inline-block;">Staff</span>
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 <a href="{{ route('dashboard') }}" class="@if(Route::currentRouteName() == 'dashboard') active @endif">
-                    📊 Dashboard
+                     Dashboard
                 </a>
                 <a href="{{ route('inventaris.index') }}" class="@if(Route::currentRouteName() == 'inventaris.index') active @endif">
-                    📋 Daftar Inventaris
+                     Daftar Inventaris
                 </a>
                 @if(Auth::user()->role === 'admin')
                 <a href="{{ route('inventaris.create') }}" class="@if(Route::currentRouteName() == 'inventaris.create') active @endif">
-                    ➕ Tambah Inventaris
+                     Tambah Inventaris
                 </a>
                 @endif
             </div>

@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'staff',
         ]);
 
-        // Create sample inventaris
-        Inventaris::factory(15)->create();
+        // Tidak membuat data inventaris otomatis
     }
 }
