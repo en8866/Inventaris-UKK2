@@ -17,18 +17,6 @@
                 @error('nama')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Kode Inventaris <span class="text-danger">*</span></label>
-                <input type="text" class="form-control @error('kode_inventaris') is-invalid @enderror" name="kode_inventaris" value="{{ old('kode_inventaris', $inventaris->kode_inventaris) }}" required>
-                @error('kode_inventaris')<div class="invalid-feedback">{{ $message }}</div>@enderror
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Deskripsi</label>
-                <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" rows="3">{{ old('deskripsi', $inventaris->deskripsi) }}</textarea>
-                @error('deskripsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
-            </div>
-
             <div class="row">
                 <div class="col-6">
                     <div class="mb-3">
@@ -44,7 +32,7 @@
                         @error('tanggal_masuk')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                 </div>
-            </div>
+            </div> <!-- End of row -->
 
             <div class="mb-3">
                 <label class="form-label">Harga</label>
@@ -53,8 +41,8 @@
             </div>
 
             <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary">✅ Perbarui</button>
-                <a href="{{ route('inventaris.show', $inventaris) }}" class="btn btn-secondary">❌ Batal</a>
+                <a href="{{ route('inventaris.index') }}" class="btn btn-secondary">Batal</a>
+                <button type="submit" class="btn btn-primary">Update</button>
             </div>
         </form>
     </div>

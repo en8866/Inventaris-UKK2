@@ -36,13 +36,48 @@ class InventarisController extends Controller
             'nama' => 'required|string|max:255',
             'jumlah' => 'required|integer|min:1',
             'tanggal_masuk' => 'required|date',
-
         ]);
 
         Inventaris::create($validated);
 
         return redirect()->route('inventaris.index')
             ->with('success', 'Inventaris berhasil ditambahkan');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Inventaris $inventaris)
+    {
+        $this->authorize('update', $inventaris);
+        return view('inventaris.edit', compact('inventaris'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Inventaris $inventaris)
+    {
+        $this->authorize('update', $inventaris);
+
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'jumlah' => 'required|integer|min:1',
+            'tanggal_masuk' => 'required|date',
+        ]);
+
+        $inventaris->update($validated);
+
+        return redirect()->route('inventaris.index')
+            ->with('success', 'Inventaris berhasil diupdate');
+    }
+
+    /**
+     * Show dashboard.
+     */
+    public function dashboard()
+    {
+        return view('dashboard');
     }
 
     /**
@@ -59,10 +94,51 @@ class InventarisController extends Controller
     }
 
     /**
-     * Show dashboard.
+     * Export inventaris to Excel (CSV).
      */
-    public function dashboard()
+    public function exportExcel(Request $request)
     {
-        return view('dashboard');
+        $fileName = 'inventaris_export_' . date('Y-m-d') . '.csv';
+        
+        $query = Inventaris::query();
+        
+        if ($request->filled('tanggal_awal') && $request->filled('tanggal_akhir')) {
+            $query->whereBetween('tanggal_masuk', [$request->tanggal_awal, $request->tanggal_akhir]);
+        } elseif ($request->filled('tanggal_awal')) {
+            $query->whereDate('tanggal_masuk', '>=', $request->tanggal_awal);
+        } elseif ($request->filled('tanggal_akhir')) {
+            $query->whereDate('tanggal_masuk', '<=', $request->tanggal_akhir);
+        }
+
+        $inventaris = $query->get();
+
+        $headers = array(
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        );
+
+        $columns = ['No', 'Nama', 'Jumlah', 'Tanggal Masuk'];
+
+        $callback = function() use($inventaris, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            $no = 1;
+            foreach ($inventaris as $item) {
+                $row = [
+                    $no++,
+                    $item->nama,
+                    $item->jumlah,
+                    $item->tanggal_masuk->format('Y-m-d')
+                ];
+                fputcsv($file, $row);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }

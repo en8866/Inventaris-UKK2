@@ -5,9 +5,41 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1> Daftar Inventaris</h1>
-    @if(Auth::user()->role === 'admin')
-    <a href="{{ route('inventaris.create') }}" class="btn btn-primary"> Tambah</a>
-    @endif
+    <div>
+        <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#exportInventarisModal"> Export Excel</button>
+        @if(Auth::user()->role === 'admin')
+        <a href="{{ route('inventaris.create') }}" class="btn btn-primary"> Tambah</a>
+        @endif
+    </div>
+</div>
+
+<!-- Modal Export Inventaris -->
+<div class="modal fade" id="exportInventarisModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Export Data Inventaris</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ route('inventaris.export') }}" method="GET">
+                <div class="modal-body">
+                    <p class="text-muted small">Biarkan kosong untuk meng-export seluruh data.</p>
+                    <div class="mb-3">
+                        <label class="form-label">Dari Tanggal (Tanggal Masuk)</label>
+                        <input type="date" name="tanggal_awal" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Sampai Tanggal</label>
+                        <input type="date" name="tanggal_akhir" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-success">Download Excel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <div class="card">
@@ -19,7 +51,7 @@
                     <th style="width: 35%;">Nama</th>
                     <th style="width: 15%;">Jumlah</th>
                     <th style="width: 18%;">Tanggal Masuk</th>
-                    <th style="width: 27%;">Aksi</th>
+                    <th style="width: 17%;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,7 +81,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                        <form action="{{ route('inventaris.destroy', $inventaris) }}" method="POST" style="display:inline;">
+                                        <form action="{{ route('inventaris.destroy', $item) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Hapus</button>
@@ -63,7 +95,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="text-center text-muted py-4">Tidak ada data</td>
+                    <td colspan="6" class="text-center text-muted py-4">Tidak ada data</td>
                 </tr>
                 @endforelse
             </tbody>

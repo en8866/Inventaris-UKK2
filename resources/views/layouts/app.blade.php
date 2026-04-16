@@ -131,8 +131,10 @@
                             <p style="margin: 0; font-size: 0.75rem; color: #f3f3f3;">
                                 @if(Auth::user()->role === 'admin')
                                 <span style="background: #e74c3c; padding: 2px 8px; border-radius: 3px; display: inline-block;">Admin</span>
-                                @else
+                                @elseif(Auth::user()->role === 'staff')
                                 <span style="background: #3498db; padding: 2px 8px; border-radius: 3px; display: inline-block;">Staff</span>
+                                @else
+                                <span style="background: #95a5a6; padding: 2px 8px; border-radius: 3px; display: inline-block;">Guest</span>
                                 @endif
                             </p>
                         </div>
@@ -144,13 +146,10 @@
                 <a href="{{ route('inventaris.index') }}" class="@if(Route::currentRouteName() == 'inventaris.index') active @endif">
                     Daftar Inventaris
                 </a>
-                <a href="#" class="disabled" style="opacity:0.7; cursor:not-allowed;">
-                    <span class="text-warning">(Segera Hadir)</span>
-                </a>
                 <a href="{{ route('peminjaman.index') }}" class="@if(Route::currentRouteName() == 'peminjaman.index') active @endif">
                     Peminjaman
                 </a>
-                @if(Auth::user()->role === 'admin')
+                @if(Auth::user()->role === 'admin' || Auth::user()->role === 'guest')
                 <a href="{{ route('peminjaman.create') }}" class="@if(Route::currentRouteName() == 'peminjaman.create') active @endif">
                     Tambah Peminjaman
                 </a>
@@ -159,11 +158,14 @@
                 <a href="{{ route('inventaris.create') }}" class="@if(Route::currentRouteName() == 'inventaris.create') active @endif">
                     Tambah Inventaris
                 </a>
+                <a href="{{ route('users.index') }}" class="@if(Str::startsWith(Route::currentRouteName(), 'users.')) active @endif">
+                    Manajemen User
+                </a>
                 @endif
             </div>
         </div>
         <div class="col-md-10">
-            <div class="main-content">
+            <div class="main-content">  
                 @if($message = Session::get('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ $message }}

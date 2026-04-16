@@ -18,7 +18,7 @@
                 <select class="form-select @error('inventaris_id') is-invalid @enderror" name="inventaris_id" required>
                     <option value="">-- Pilih Barang --</option>
                     @foreach($inventaris as $item)
-                        <option value="{{ $item->id }}" @selected(old('inventaris_id') == $item->id)>{{ $item->nama }}</option>
+                        <option value="{{ $item->id }}" @selected(old('inventaris_id') == $item->id)>{{ $item->nama }} (Stok: {{ $item->jumlah }})</option>
                     @endforeach
                 </select>
                 @error('inventaris_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
